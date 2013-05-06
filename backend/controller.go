@@ -36,6 +36,10 @@ type BuyReject struct {
 	Reason string
 }
 
+type BuyTowerConfirm struct {
+	Pos int
+}
+
 type DeployReject struct {
 	Reason string
 }

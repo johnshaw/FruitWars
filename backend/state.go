@@ -89,6 +89,12 @@ func (l *Location) Neighbor(n int) Location {
 	return Location{l.X, l.Y}
 }
 
+type Stats struct {
+	TowerDmg int
+	BaseDmg int
+	DudeDmg int
+}
+
 type Player struct {
 	Id string
 	Name string
@@ -97,6 +103,7 @@ type Player struct {
 }
 
 type Tower struct {
+	PlayerId string
 	// Position is 0->11, CW from top-left corner
 	Pos int
 	Type string
@@ -108,6 +115,7 @@ type Base struct {
 	Id string
 	Pos Location
 	Towers []Tower
+	Health int
 }
 
 type Dude struct {
@@ -119,7 +127,62 @@ type Dude struct {
 	Pos Location
 	Dir Direction
 	Health int
-	Alive bool
+	//Alive bool
+	Stats Stats
+}
+
+func MakeDude(dtype string) Dude {
+	var d Dude
+	d.Id = int(rand.Int31())
+	d.Type = dtype
+	switch dtype {
+	case "antidude":
+		d.Stats.DudeDmg = 5
+		d.Stats.TowerDmg = 1
+		d.Stats.BaseDmg = 1
+	case "antitower":
+		d.Stats.DudeDmg =1
+		d.Stats.TowerDmg = 5
+		d.Stats.BaseDmg = 1
+	case "antibase":
+		d.Stats.DudeDmg = 1 
+		d.Stats.TowerDmg = 1
+		d.Stats.BaseDmg = 5
+	}
+	//d.Alive = true
+	d.Health = DUDE_HEALTH
+	return d
+}
+
+func (t *Tower) TowerLocation(b *Base) Location {
+	switch t.Pos {
+	case 0:
+		return Location{b.Pos.X, b.Pos.Y}
+	case 1:
+		return Location{b.Pos.X+1, b.Pos.Y}
+	case 2:
+		return Location{b.Pos.X+2, b.Pos.Y}
+	case 3:
+		return Location{b.Pos.X+3, b.Pos.Y}
+	case 4:
+		return Location{b.Pos.X+3, b.Pos.Y+1}
+	case 5:
+		return Location{b.Pos.X+3, b.Pos.Y+2}
+	case 6:
+		return Location{b.Pos.X+3, b.Pos.Y+3}
+	case 7:
+		return Location{b.Pos.X+2, b.Pos.Y+3}
+	case 8:
+		return Location{b.Pos.X+1, b.Pos.Y+3}
+	case 9:
+		return Location{b.Pos.X, b.Pos.Y+3}
+	case 10:
+		return Location{b.Pos.X, b.Pos.Y+2}
+	case 11:
+		return Location{b.Pos.X, b.Pos.Y+1}
+	}
+	//fmt.Println("ERROR: Invalid pos: %d", t.Pos)
+	return Location{-1, -1}
 }
 
 type State struct {
