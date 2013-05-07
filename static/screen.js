@@ -1,6 +1,6 @@
 minispade.register('application.js', function() {$(document).ready( function() {
   var board = new Board(0, 0, 1920, 1080, "#123456");
-  var socket = new SocketAdapter(board, "ws://192.168.2.13:8080/screen");
+  var socket = new SocketAdapter(board, "ws://" + document.location.host + "/screen");
   board.runLoop();
 });
 

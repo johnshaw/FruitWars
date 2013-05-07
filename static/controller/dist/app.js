@@ -126,14 +126,14 @@ App.SocketAdapter = DS.RESTAdapter.extend({
 
     this._super();
     context = this;
-    window.ws = new WebSocket("ws://192.168.2.13:8080/control");
+    window.ws = new WebSocket("ws://" + document.location.host + "/control");
     ws.onopen = function(err) {
       return console.log("connected");
     };
     ws.onerror = function(err) {
       var ws;
 
-      ws = new WebSocket("ws://192.168.2.13:8080/control");
+      ws = new WebSocket("ws://" + document.location.host + "/control");
       return this.set("socket", ws);
     };
     ws.onmessage = function(evt) {
