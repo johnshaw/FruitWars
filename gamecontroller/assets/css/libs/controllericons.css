@@ -1,0 +1,149 @@
+.contsprite {
+    background-image: url("../../images/controllericons.png");
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.sprite-Nexus-Apple {
+    width: 138px;
+    height: 138px;
+    background-position: -5px -5px;
+}
+
+.sprite-Nexus-Banana {
+    width: 127px;
+    height: 138px;
+    background-position: -153px -5px;
+}
+
+.sprite-Nexus-Grape {
+    width: 138px;
+    height: 138px;
+    background-position: -290px -5px;
+}
+
+.sprite-Nexus-Watermelon {
+    width: 138px;
+    height: 138px;
+    background-position: -5px -153px;
+}
+
+.sprite-Tower-Apple {
+    width: 60px;
+    height: 60px;
+    background-position: -438px -5px;
+}
+
+.sprite-Tower-Banana {
+    width: 60px;
+    height: 60px;
+    background-position: -508px -5px;
+}
+
+.sprite-Tower-Grape {
+    width: 68px;
+    height: 68px;
+    background-position: -438px -75px;
+}
+
+.sprite-Tower-Watermelon {
+    width: 60px;
+    height: 60px;
+    background-position: -153px -153px;
+}
+
+.sprite-applebuildtower {
+    width: 68px;
+    height: 68px;
+    background-position: -223px -153px;
+}
+
+.sprite-appledude-base-icon {
+    width: 120px;
+    height: 120px;
+    background-position: -301px -153px;
+}
+
+.sprite-appledude-dude-icon {
+    width: 120px;
+    height: 120px;
+    background-position: -431px -153px;
+}
+
+.sprite-appledude-tower-icon {
+    width: 120px;
+    height: 120px;
+    background-position: -153px -283px;
+}
+
+.sprite-bananabuildtower {
+    width: 68px;
+    height: 68px;
+    background-position: -283px -283px;
+}
+
+.sprite-bananadude-base-icon {
+    width: 120px;
+    height: 120px;
+    background-position: -361px -283px;
+}
+
+.sprite-bananadude-dude-icon {
+    width: 120px;
+    height: 120px;
+    background-position: -5px -413px;
+}
+
+.sprite-bananadude-tower-icon {
+    width: 120px;
+    height: 120px;
+    background-position: -135px -413px;
+}
+
+.sprite-grapebuildtower {
+    width: 68px;
+    height: 68px;
+    background-position: -491px -283px;
+}
+
+.sprite-grapedude-base-icon {
+    width: 120px;
+    height: 120px;
+    background-position: -265px -413px;
+}
+
+.sprite-grapedude-dude-icon {
+    width: 120px;
+    height: 120px;
+    background-position: -395px -413px;
+}
+
+.sprite-grapedude-tower-icon {
+    width: 120px;
+    height: 120px;
+    background-position: -578px -5px;
+}
+
+.sprite-watermelonbuildtower {
+    width: 68px;
+    height: 68px;
+    background-position: -561px -135px;
+}
+
+.sprite-watermelondude-base-icon {
+    width: 120px;
+    height: 120px;
+    background-position: -569px -213px;
+}
+
+.sprite-watermelondude-dude-icon {
+    width: 120px;
+    height: 120px;
+    background-position: -569px -343px;
+}
+
+.sprite-watermelondude-tower-icon {
+    width: 120px;
+    height: 120px;
+    background-position: -525px -473px;
+}

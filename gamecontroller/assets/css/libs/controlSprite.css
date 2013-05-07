@@ -1,0 +1,95 @@
+.sprite {
+    background-image: url('../../images/controlSprites.png');
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.sprite-Build-Tower-Banana {
+    width: 68px;
+    height: 68px;
+    background-position: -5px -5px;
+}
+
+.sprite-Build-Tower-Grape {
+    width: 68px;
+    height: 68px;
+    background-position: -83px -5px;
+}
+
+.sprite-Build-Tower-Watermelon {
+    width: 68px;
+    height: 68px;
+    background-position: -161px -5px;
+}
+
+.sprite-Build-Tower_Apple {
+    width: 68px;
+    height: 68px;
+    background-position: -239px -5px;
+}
+
+.sprite-Nexus-Apple {
+    width: 138px;
+    height: 138px;
+    background-position: -5px -83px;
+}
+
+.sprite-Nexus-Banana {
+    width: 127px;
+    height: 138px;
+    background-position: -153px -83px;
+}
+
+.sprite-Nexus-Grape {
+    width: 138px;
+    height: 138px;
+    background-position: -5px -231px;
+}
+
+.sprite-Nexus-Watermelon {
+    width: 138px;
+    height: 138px;
+    background-position: -153px -231px;
+}
+
+.sprite-Tower-Apple {
+    width: 68px;
+    height: 68px;
+    background-position: -317px -5px;
+}
+
+.sprite-Tower-Banana {
+    width: 68px;
+    height: 68px;
+    background-position: -290px -83px;
+}
+
+.sprite-Tower-Grape {
+    width: 68px;
+    height: 68px;
+    background-position: -301px -161px;
+}
+
+.sprite-Tower-Watermelon {
+    width: 68px;
+    height: 68px;
+    background-position: -301px -239px;
+}
+
+.sprite-bananadude-base-120p {
+    width: 120px;
+    height: 120px;
+    background-position: -395px -5px;
+}
+
+.sprite-bananadude-dude-120p {
+    width: 120px;
+    height: 120px;
+    background-position: -379px -135px;
+}
+
+.sprite-bananadude-tower-120p {
+    width: 120px;
+    height: 120px;
+    background-position: -379px -265px;
+}
