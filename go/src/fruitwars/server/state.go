@@ -194,6 +194,7 @@ type State struct {
 	Map [][]string
 
 	controlToPlayer map[int]string
+	changed bool
 }
 
 type NewClientChan struct {

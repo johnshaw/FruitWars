@@ -13,12 +13,17 @@ func ScreenHandler(bcast *StateBroadcaster, ws *websocket.Conn) {
 	// Clean up the channel when done
 	defer bcast.DelChan(id)
 
+	first := true
+
 	for {
 		state := <-schan
-		err := websocket.JSON.Send(ws, state)
-		if err != nil {
-			fmt.Printf("Screen Handler Error: %s\n", err)
-			return
+		if state.changed || first {
+			first = false
+			err := websocket.JSON.Send(ws, state)
+			if err != nil {
+				fmt.Printf("Screen Handler Error: %s\n", err)
+				return
+			}
 		}
 	}
 }

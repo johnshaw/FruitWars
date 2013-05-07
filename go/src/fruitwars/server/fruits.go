@@ -297,12 +297,15 @@ func DudeVsBase(d *Dude, b *Base) {
 	}
 }
 
-func DoIt(state *State) {
+func DoIt(state *State) bool {
+	changed := false
+
 	// Dudes will be left in the map when their health drops to 0 and removed on
 	// the next tick. This is the next tick.
 	// Remove Dudes with 0 health
 	for id, dude := range state.Dudes {
 		if dude.Health == 0 {
+			changed = true
 			delete(state.Dudes, id)
 		}
 	}
@@ -325,6 +328,7 @@ func DoIt(state *State) {
 
 	//oldpos := GetDudePositionMap(state)
 	for _, dude := range state.Dudes {
+		changed = true
 		pos := dude.Pos.Advance(dude.Dir)
 		advance := true
 		ipos := Location{math.Floor(pos.X), math.Floor(pos.Y)}
@@ -385,6 +389,8 @@ func DoIt(state *State) {
 			dude.Health = 0
 		}
 	}
+
+	return changed
 }
 
 func GameLoop(schan chan State, cmchan chan ControlRequest) {
@@ -396,15 +402,18 @@ func GameLoop(schan chan State, cmchan chan ControlRequest) {
 		//dudes := MakeDudes()
 		dudes := map[string]*Dude{}
 		bases := PickBases(m)
-		state := State{players, bases, dudes, m, map[int]string{}}
+		state := State{players, bases, dudes, m, map[int]string{}, true}
 		tick := time.Tick(CLOCK_TICK * time.Millisecond)
+
+		// Initial update
+		schan <- state
 
 		gloop:
 		for {
 			select {
 			case <-tick:
 				// Update positions and fight
-				DoIt(&state)
+				state.changed = DoIt(&state)
 
 				// Award resources
 				for _, p := range players {
@@ -443,7 +452,7 @@ func Serve() {
 	http.Handle("/control", websocket.Handler(controlHandler))
 	http.Handle("/", http.FileServer(http.Dir("./static")))
 	fmt.Println("Starting server")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(":80", nil); err != nil {
 		log.Fatal("Server failed:", err)
 	}
 	fmt.Println("exiting server")
