@@ -123,7 +123,7 @@ func ReadMap(path string) [][]string {
 	return lines
 }
 
-func ProcessControlRequest(state *State, msg ControlRequest) {
+func ProcessControlRequest(state *State, msg ControlRequest, reset chan bool) {
 	switch msg.MsgType {
 	case "BuyDude":
 		fmt.Println("Buy Dude!")
@@ -257,6 +257,10 @@ func ProcessControlRequest(state *State, msg ControlRequest) {
 		if ok {
 			state.Players[pid].assigned = false
 			delete(state.controlToPlayer, msg.ControlId)
+			// If all controllers disconnect, reset game state
+			if len(state.controlToPlayer) == 0 {
+				reset <- true
+			}
 		}
 	}
 }
@@ -385,31 +389,39 @@ func DoIt(state *State) {
 
 func GameLoop(schan chan State, cmchan chan ControlRequest) {
 	rand.Seed(time.Now().Unix())
-	players := MakePlayers()
-	//dudes := MakeDudes()
-	dudes := map[string]*Dude{}
 	m := ReadMap("./map")
-	bases := PickBases(m)
-	state := State{players, bases, dudes, m, map[int]string{}}
-	tick := time.Tick(CLOCK_TICK * time.Millisecond)
-
+	reset := make(chan bool, 10)
 	for {
-		select {
-		case <-tick:
-			// Update positions and fight
-			DoIt(&state)
+		players := MakePlayers()
+		//dudes := MakeDudes()
+		dudes := map[string]*Dude{}
+		bases := PickBases(m)
+		state := State{players, bases, dudes, m, map[int]string{}}
+		tick := time.Tick(CLOCK_TICK * time.Millisecond)
 
-			// Award resources
-			for _, p := range players {
-				p.Water += WATER_PER_ROUND
+		gloop:
+		for {
+			select {
+			case <-tick:
+				// Update positions and fight
+				DoIt(&state)
+
+				// Award resources
+				for _, p := range players {
+					p.Water += WATER_PER_ROUND
+				}
+
+				// Push state
+				schan <- state
+			case msg := <-cmchan:
+				// Process Events from controllers
+				ProcessControlRequest(&state, msg, reset)
+			case <-reset:
+				break gloop
 			}
-
-			// Push state
-			schan <- state
-		case msg := <-cmchan:
-			// Process Events from controllers
-			ProcessControlRequest(&state, msg)
 		}
+
+		fmt.Println("Game Reset")
 	}
 }
 
