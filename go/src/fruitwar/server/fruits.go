@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"fmt"
@@ -413,7 +413,7 @@ func GameLoop(schan chan State, cmchan chan ControlRequest) {
 	}
 }
 
-func main() {
+func Serve() {
 	schan := make(chan State, 100)
 	cmchan := make(chan ControlRequest, 100)
 
@@ -429,6 +429,7 @@ func main() {
 
 	http.Handle("/screen", websocket.Handler(screenHandler))
 	http.Handle("/control", websocket.Handler(controlHandler))
+	http.Handle("/", http.FileServer(http.Dir("./static")))
 	fmt.Println("Starting server")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal("Server failed:", err)

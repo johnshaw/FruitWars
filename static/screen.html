@@ -1,0 +1,26 @@
+<html>
+<head>
+  <link href="screen/css/game.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <script src="screen/libs/jquery-2.0.0.js"></script>
+  <script src="screen/libs/minispade.js"></script>
+  <script src="screen.js"></script>
+
+  <script src="http://localhost:35729/livereload.js?snipver=1">
+  </script>
+  
+  <img id="spritesheet" src="screen/img/spritesheet.png" style="display:none;"></img>
+  <img id="maptiles" src="screen/img/maptiles.png" style="display:none;"></img>
+  <img id="map" src="screen/img/smallmap.png" style="display:none;"></img>
+
+  <audio autoplay loop>
+    <source src="screen/audio/backgroundmusic.mp3">
+  </audio>
+
+  <script>
+    minispade.require('application.js');
+  </script>
+  
+</body>
+</html>
