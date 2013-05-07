@@ -1,6 +1,6 @@
 package main
 
-import "fruitwar/server"
+import "fruitwars/server"
 
 func main() {
 	server.Serve()

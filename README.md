@@ -1,6 +1,6 @@
-Fruit War
-=========
+Fruit Wars
+==========
 
-go get fruitwar/server
-go install fruitwar
-./go/bin/fruitwar
+go get fruitwars/server
+go install fruitwars
+./go/bin/fruitwars
