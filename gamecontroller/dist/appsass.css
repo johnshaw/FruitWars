@@ -1,0 +1,188 @@
+* {
+  box-sizing: border-box;
+  margin: none;
+  padding: none;
+  outline: 0;
+  border: none;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: #d0d0d0;
+}
+
+div {
+  height: 100%;
+  width: 100%;
+}
+
+.modal {
+  text-align: center;
+  height: 70%;
+  width: 70%;
+  background: pink;
+  font-family: governor;
+}
+.modal p {
+  font-size: 40px;
+}
+.modal p#tagline {
+  font-size: 20px;
+}
+
+.teamchoose {
+  margin-top: 10px;
+  height: 65%;
+  width: 15%;
+  display: inline-block;
+  background: red;
+}
+
+div#banana {
+  background: url("../assets/images/bananaselect.png") no-repeat;
+  background-size: 100%;
+}
+
+div#watermelon {
+  background: url("../assets/images/watermelonselect.png") no-repeat;
+  background-size: 100%;
+}
+
+div#apple {
+  background: url("../assets/images/appleselect.png") no-repeat;
+  background-size: 100%;
+}
+
+div#grape {
+  background: url("../assets/images/grapeselect.png") no-repeat;
+  background-size: 100%;
+}
+
+section#baseGrid {
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 280px;
+  width: 280px;
+  position: relative;
+}
+
+section.towerGrid {
+  height: 100%;
+  width: 100%;
+  margin-left: none;
+  padding: none;
+}
+
+section.baseTower {
+  height: 25%;
+  width: 25%;
+  box-sizing: border-box;
+  position: absolute;
+  list-style: none;
+}
+
+section#innerBaseMid {
+  position: absolute;
+  margin-top: 1px;
+  height: 50%;
+  width: 50%;
+  top: 25%;
+  left: 25%;
+}
+
+div#leftHalf {
+  top: 0;
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  font-family: "governor";
+}
+
+section.resources {
+  text-align: center;
+}
+section.resources p {
+  font-size: 2em;
+}
+
+section#wateramount {
+  background: #32acfb;
+  display: inline-block;
+  border-radius: 20px;
+  border: 3px double white;
+  height: 30px;
+}
+
+section#time {
+  background: #fea92e;
+  display: inline-block;
+  border-radius: 20px;
+  border: 3px double white;
+  height: 30px;
+}
+
+div#rightHalf {
+  height: 100%;
+  width: 50%;
+  position: absolute;
+  left: 50%;
+  top: 0%;
+  text-align: center;
+  font-size: 2.5em;
+}
+
+section.buildunitcontainer {
+  height: 250px;
+  margin-top: 25px;
+  position: relative;
+  text-align: center;
+}
+
+section.antidude {
+  position: absolute;
+  display: inline-block;
+  top: 47.5%;
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  left: 17.5%;
+}
+
+section.antitower {
+  position: absolute;
+  display: inline-block;
+  border-radius: 50%;
+  margin-left: 10px;
+  margin-right: 5px;
+  top: 2.5%;
+  left: 31.5%;
+  height: 120px;
+  width: 120px;
+}
+
+section.antibase {
+  position: absolute;
+  border-radius: 50%;
+  top: 47.5%;
+  left: 47.5%;
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 5px;
+  height: 120px;
+  width: 120px;
+}
+
+span#xy {
+  position: fixed;
+  top: 5%;
+  color: white;
+  font-family: "governor";
+}
+
+span#dudecount {
+  color: black;
+  font-family: "governor";
+}
