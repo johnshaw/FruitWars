@@ -11,7 +11,7 @@ Tile = function(x, y, width, height, color, imagemap) {
   this.y = y;
   this.width = width;
   this.height = height;
-  this.color = color; 
+  this.color = color;
   this.imagemap = imagemap;
 };
 
@@ -25,7 +25,7 @@ var Player = {};
 Player = function () {};
 
 Player.prototype = {
-  constructor: Player,  
+  constructor: Player,
 };
 
 //ImageMap model
@@ -66,7 +66,7 @@ ImageController.prototype = {
       return this.spriteStore[imageName];
     } else {
       return null;
-    }    
+    }
   },
 
   retrieveSpriteJSON: function(url, spritesheet) {
@@ -80,13 +80,13 @@ ImageController.prototype = {
           var spriteData = data.frames[key].frame
             , newImageMap = new ImageMap( spritesheet,
                                           spriteData.x, spriteData.y,
-                                          spriteData.w, spriteData.h );  
+                                          spriteData.w, spriteData.h );
           this.spriteStore[key] = newImageMap;
         }
         this.spritesAreLoaded++;
       }
     });
-  },  
+  },
 };
 
 //Board Model
@@ -104,10 +104,10 @@ Board = function(x, y, width, height, backgroundColor) {
   this.entitylayer.appendTo('body');
   this.foreground.appendTo('body');
 
-  this.bgctx = document.getElementById('bgcan').getContext('2d'); 
-  this.mapctx = document.getElementById('mapcan').getContext('2d'); 
-  this.entityctx = document.getElementById('entcan').getContext('2d'); 
-  this.fgctx = document.getElementById('fgcan').getContext('2d'); 
+  this.bgctx = document.getElementById('bgcan').getContext('2d');
+  this.mapctx = document.getElementById('mapcan').getContext('2d');
+  this.entityctx = document.getElementById('entcan').getContext('2d');
+  this.fgctx = document.getElementById('fgcan').getContext('2d');
 
   this.x = x;
   this.y = y;
@@ -119,21 +119,21 @@ Board = function(x, y, width, height, backgroundColor) {
 
   this.backgroundColor = backgroundColor;
   this.foregroundColor = backgroundColor;
-  
+
   this.imageController = new ImageController(this);
-  this.imageController.init(); 
- 
+  this.imageController.init();
+
   this.mapTiles = [];
   this.entities = [];
 };
 
 Board.prototype = {
-  
+
   constructor: Board,
- 
+
   runLoop: function() {
     this.drawImageLayer(this.bgctx, this.backgroundImage);
-    if (this.imageController.spritesAreLoaded === 
+    if (this.imageController.spritesAreLoaded ===
         this.imageController.spriteSheetCount) {
       //this.drawTiles(this.mapctx, this.mapTiles, this.tilesize);
       this.clearLayer(this.entityctx);
@@ -150,7 +150,7 @@ Board.prototype = {
 
   drawLayer: function(ctx, color) {
     ctx.fillStyle = color;
-    ctx.fillRect(this.x, this.y, this.width, this.height); 
+    ctx.fillRect(this.x, this.y, this.width, this.height);
   },
 
   clearLayer: function(ctx) {
@@ -165,7 +165,7 @@ Board.prototype = {
 
   drawTile: function(ctx, tile, tilesize) {
     ctx.drawImage(tile.imagemap.spritesheet,
-                  tile.imagemap.x, tile.imagemap.y, 
+                  tile.imagemap.x, tile.imagemap.y,
                   tile.imagemap.width, tile.imagemap.height,
                   tilesize * tile.x, tilesize * tile.y,
                   tilesize * tile.width, tilesize * tile.height )
@@ -174,19 +174,19 @@ Board.prototype = {
   drawColorTile: function(ctx, tile, tilesize) {
     ctx.fillStyle = tile.color;
     ctx.fillRect( tilesize * tile.x, tilesize * tile.y,
-                  tilesize * tile.width, tilesize * tile.height ); 
+                  tilesize * tile.width, tilesize * tile.height );
   },
 
 };
 
 
-//SOCKET ADAPTER OBJECT 
+//SOCKET ADAPTER OBJECT
 var SocketAdapter = {};
 
 SocketAdapter = function(board, url) {
 
   this.board = board;
-  
+
   this.ws = new WebSocket(url);
 
   this.ws.onopen = function(event) {
@@ -194,7 +194,7 @@ SocketAdapter = function(board, url) {
   }.bind(this);
 
   this.ws.onmessage = function(event) {
-    this.parse(JSON.parse(event.data)); 
+    this.parse(JSON.parse(event.data));
   }.bind(this);
 
 };
@@ -202,7 +202,7 @@ SocketAdapter = function(board, url) {
 SocketAdapter.prototype = {
 
   constructor: SocketAdapter,
-  
+
   parse: function (data) {
     var baseData = data.Bases
       , dudeData = data.Dudes
@@ -214,6 +214,7 @@ SocketAdapter.prototype = {
 
     var dudeMapping = {};
     var baseMapping = {};
+    var towerMapping = {};
 
     var fruits = ['apple', 'banana', 'watermelon', 'grape'];
     var types = ['antidude', 'antitower', 'antibase'];
@@ -227,34 +228,66 @@ SocketAdapter.prototype = {
       baseMapping[fruit] = fruit + "base.png";
       return;
     };
-  
+
+    var generateTowerMapping = function(fruit) {
+      towerMapping[fruit] = fruit + "tower.png";
+      return;
+    };
+
     for (var i in fruits) {
       for (var j in types) {
         generateDudeMapping(fruits[i], types[j]);
-        generateBaseMapping(fruits[i]);
       }
+      generateBaseMapping(fruits[i]);
+      generateTowerMapping(fruits[i]);
     }
-    
+
+    var towerPos = {
+      0: [-1, -1],
+      1: [0, -1],
+      2: [1, -1],
+      3: [2, -1],
+      4: [2, 0],
+      5: [2, 1],
+      6: [2, 2],
+      7: [1, 2],
+      8: [0, 2],
+      9: [-1, 2],
+      10: [-1, 1],
+      11: [-1, 0]
+    }
+
     for (var i in baseData) {
       var base = baseData[i];
 
       var imageName = baseMapping[base.Id];
-      imageMap = this.board.imageController.getImageMap(imageName); 
+      imageMap = this.board.imageController.getImageMap(imageName);
 
-      this.board.entities.push(new Tile(base.Pos.X, 
-                                        base.Pos.Y, 
+      this.board.entities.push(new Tile(base.Pos.X,
+                                        base.Pos.Y,
                                         4, 4, "#00ff00", imageMap));
+      for (var i in base.Towers) {
+          var t = base.Towers[i];
+
+          var imageName = towerMapping[t.PlayerId];
+          imageMap = this.board.imageController.getImageMap(imageName);
+
+          var p = towerPos[t.Pos];
+          this.board.entities.push(new Tile(base.Pos.X + p[0]+1,
+                                            base.Pos.Y + p[1]+1,
+                                            1, 1, "#00ff00", imageMap));
+      }
     }
 
     for (var i in dudeData) {
-      var dude = dudeData[i]; 
+      var dude = dudeData[i];
 
       var imageName = dudeMapping[dude.PlayerId+dude.Type];
-      imageMap = this.board.imageController.getImageMap(imageName); 
+      imageMap = this.board.imageController.getImageMap(imageName);
 
       var dude = dudeData[i];
-      this.board.entities.push(new Tile(dude.Pos.X, 
-                                        dude.Pos.Y, 
+      this.board.entities.push(new Tile(dude.Pos.X,
+                                        dude.Pos.Y,
                                         1, 1, "#0000ff", imageMap));
     }
 
@@ -270,12 +303,12 @@ SocketAdapter.prototype = {
     for (var i in mapData) {
       for (var j in mapData[i]) {
         var imageName = mapTileMapping[mapData[i][j]];
-        imageMap = this.board.imageController.getImageMap(imageName); 
+        imageMap = this.board.imageController.getImageMap(imageName);
         if (imageMap) {
           this.board.mapTiles.push(new Tile(j, i, 1, 1, "#ff0000", imageMap));
         }
       }
-    } 
+    }
   },
 };
 
@@ -288,7 +321,7 @@ updateCanvasSize = function (pdenX, pdenY, pixelSize) {
    var canvasHeight = pdenY * pixelSize
      , canvasWidth = pdenX * pixelSize;
 
-   return {height: canvasHeight, width: canvasWidth};  
+   return {height: canvasHeight, width: canvasWidth};
 };
 
 });

@@ -213,6 +213,7 @@ func ProcessControlRequest(state *State, msg ControlRequest, reset chan bool) {
 		tower.Type = ""
 
 		state.Bases[pid].Towers = append(state.Bases[pid].Towers, tower)
+		state.changed = true
 
 		fmt.Printf("Added Tower: %+v\n", tower)
 
@@ -415,7 +416,7 @@ func GameLoop(schan chan State, cmchan chan ControlRequest) {
 			select {
 			case <-tick:
 				// Update positions and fight
-				state.changed = DoIt(&state)
+				state.changed = DoIt(&state) || state.changed
 
 				// Award resources
 				for _, p := range players {
@@ -424,6 +425,8 @@ func GameLoop(schan chan State, cmchan chan ControlRequest) {
 
 				// Push state
 				schan <- state
+
+				state.changed = false
 			case msg := <-cmchan:
 				// Process Events from controllers
 				ProcessControlRequest(&state, msg, reset)
