@@ -14,9 +14,20 @@
   <img id="maptiles" src="screen/img/maptiles.png" style="display:none;"></img>
   <img id="map" src="screen/img/smallmap.png" style="display:none;"></img>
 
-  <audio autoplay loop>
+  <audio id="intro-music" autoplay>
+    <source src="screen/audio/intromusic.mp3">
+  </audio>
+
+  <audio id="background-music" loop>
     <source src="screen/audio/backgroundmusic.mp3">
   </audio>
+
+  <script>
+      m = document.getElementById("intro-music");
+      m.addEventListener("ended", function() {
+          document.getElementById("background-music").play();
+      });
+  </script>
 
   <script>
     minispade.require('application.js');
