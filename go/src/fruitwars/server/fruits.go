@@ -18,7 +18,7 @@ import (
 const BOARD_WIDTH = 32
 const BOARD_HEIGHT = 18
 
-const TOWER_COST = 50
+const TOWER_COST = 100
 const DUDE_COST = 20
 
 const CLOCK_TICK = 100
@@ -27,8 +27,10 @@ const STARTING_WATER = 100
 const WATER_PER_ROUND = 1
 
 const DUDE_HEALTH = 100
-const TOWER_HEALTH = 100
-const BASE_HEALTH = 100
+const TOWER_HEALTH = 1000
+const BASE_HEALTH = 10000
+
+const TOWER_DMG = 5
 
 const DUDE_VELOCITY = 0.4
 
@@ -281,7 +283,7 @@ func DudeVsDude(d1 *Dude, d2 *Dude) {
 func DudeVsTower(d *Dude, t *Tower) {
 	t.Health -= d.Stats.TowerDmg
 	// Tower dmg is fixed
-	d.Health -= 5
+	d.Health -= TOWER_DMG
 	if t.Health < 0 {
 		fmt.Printf("Tower %s(%d) destroyed!", t.PlayerId, t.Pos)
 		t.Health = 0
